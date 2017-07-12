@@ -43,6 +43,7 @@ class ControlEmptyWidget(ControlBase, QWidget):
 
 	@value.setter
 	def value(self, value):
+		print("ControlEmptyWidget:", value)
 		ControlBase.value.fset(self, value)
 		self.__clear_layout()
 
@@ -53,15 +54,20 @@ class ControlEmptyWidget(ControlBase, QWidget):
 				if w != None and w != "": self.form.layout().removeWidget(w.form)
 
 		if isinstance(value, list):
+			print("LIST")
 			for w in value:
+				print(w)
 				self.form.layout().addWidget(w.form)
+
+				# The init_form should be called only for the BaseWidget
+				if isinstance(w, BaseWidget) and not w._formLoaded:
+					w.init_form()
 		else:
 			self.form.layout().addWidget(value.form)
+			# The init_form should be called only for the BaseWidget
+			if isinstance(value, BaseWidget) and not value._formLoaded:
+				value.init_form()
 
-		# The init_form should be called only for the BaseWidget
-
-		if isinstance(value, BaseWidget) and not value._formLoaded:
-			value.init_form()
 
 	@property
 	def form(self):
