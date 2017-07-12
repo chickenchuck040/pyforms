@@ -28,8 +28,8 @@ else:
 class ControlVisVis(ControlBase):
 
 	def init_form(self):        
-		self._form = QtGui.QWidget()
-		layout = QtGui.QVBoxLayout()
+		self._form = QWidget()
+		layout = QVBoxLayout()
 		
 		if conf.PYFORMS_USE_QT5:
 			layout.setContentsMargins(0,0,0,0)
@@ -37,13 +37,13 @@ class ControlVisVis(ControlBase):
 			layout.setMargin(0)
 
 		self._form.setLayout( layout )
-		self._app = vv.use('pyqt4')
+		self._app = vv.use('pyqt5')
 		self._app.Create()
 		
 		Figure = self._app.GetFigureClass()
 		self._fig = Figure(self._form)
 
-		policy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+		policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		widget = self._fig._widget
 		widget.setSizePolicy(policy)
 

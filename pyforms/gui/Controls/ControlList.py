@@ -132,7 +132,7 @@ class ControlList(ControlBase, QWidget):
 		elif 'value' in data.keys():
 			self.value = data['value']
 
-	def __add__(self, other):
+	def __add__(self, other, resize=True):
 
 		row = self.tableWidget.rowCount()
 
@@ -142,7 +142,9 @@ class ControlList(ControlBase, QWidget):
 
 		for column, e in enumerate(other): self.set_value(column, row, e)
 
-		self.tableWidget.resizeColumnsToContents()
+		if resize:
+			self.tableWidget.resizeColumnsToContents()
+
 		return self
 
 	def __sub__(self, other):
