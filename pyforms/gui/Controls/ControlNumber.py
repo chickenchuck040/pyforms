@@ -16,9 +16,11 @@ from pyforms.gui.Controls.ControlBase import ControlBase
 
 
 class ControlNumber(ControlBase):
-	def __init__(self, label="", default=0, minimum=0, maximum=100):
+	def __init__(self, label="", default=0, minimum=0, maximum=100, decimals=0):
 		self._min = minimum
 		self._max = maximum
+		self._decimals = decimals
+		self._updateSpinner = True
 		ControlBase.__init__(self, label, default)
 
 	def init_form(self):
@@ -28,14 +30,14 @@ class ControlNumber(ControlBase):
 		self.value = self._value
 		self.form.label.setAccessibleName('ControlNumber-label')
 		self.form.spinBox.valueChanged.connect(self.value_changed)
-		self.form.spinBox.setDecimals(0)
+		self.form.spinBox.setDecimals(self._decimals)
 		self.min = self._min
 		self.max = self._max
 
 	def value_changed(self, value):
-		self._updateSlider = False
+		self._updateSpinner = False
 		self.value = value
-		self._updateSlider = True
+		self._updateSpinner= True
 
 	############################################################################
 	############ Properties ####################################################
@@ -55,7 +57,8 @@ class ControlNumber(ControlBase):
 	@value.setter
 	def value(self, value):
 		ControlBase.value.fset(self, value)
-		self.form.spinBox.setValue(value)
+		if self._updateSpinner:
+			self.form.spinBox.setValue(value)
 
 	@property
 	def min(self): return self.form.spinBox.minimum()
