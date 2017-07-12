@@ -55,14 +55,13 @@ class ControlEmptyWidget(ControlBase, QWidget):
 		if isinstance(value, list):
 			for w in value:
 				self.form.layout().addWidget(w.form)
-
 		else:
 			self.form.layout().addWidget(value.form)
 
 		# The init_form should be called only for the BaseWidget
 
-		if isinstance(w, BaseWidget) and not w._formLoaded:
-			w.init_form()
+		if isinstance(value, BaseWidget) and not value._formLoaded:
+			value.init_form()
 
 	@property
 	def form(self):
