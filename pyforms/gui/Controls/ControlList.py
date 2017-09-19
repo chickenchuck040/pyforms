@@ -41,11 +41,12 @@ class ControlList(ControlBase, QWidget):
 	CELL_VALUE_BEFORE_CHANGE = None  # store value when cell is double clicked
 
 	def __init__(self, label="", default="", add_function=None,
-	             remove_function=None):
+	             remove_function=None, auto_resize=True):
 		QWidget.__init__(self)
 
 		self._plusFunction = add_function
 		self._minusFunction = remove_function
+		self._resizeColumns = auto_resize
 		ControlBase.__init__(self, label, default)
 
 	##########################################################################
@@ -132,7 +133,7 @@ class ControlList(ControlBase, QWidget):
 		elif 'value' in data.keys():
 			self.value = data['value']
 
-	def __add__(self, other, resize=True):
+	def __add__(self, other):
 
 		row = self.tableWidget.rowCount()
 
@@ -142,7 +143,7 @@ class ControlList(ControlBase, QWidget):
 
 		for column, e in enumerate(other): self.set_value(column, row, e)
 
-		if resize:
+		if self._resizeColumns:
 			self.tableWidget.resizeColumnsToContents()
 
 		return self
